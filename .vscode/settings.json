@@ -1,0 +1,10 @@
+{
+    "dotnet.defaultSolution": "Frontend.sln",
+    "python-envs.pythonProjects": [
+        {
+            "path": "Backend/app/app.py",
+            "envManager": "ms-python.python:venv",
+            "packageManager": "ms-python.python:pip"
+        }
+    ]
+}
