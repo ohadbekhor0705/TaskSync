@@ -1,7 +1,161 @@
 ﻿@page "/"
 
-<PageTitle>Home</PageTitle>
+<PageTitle>TaskSync</PageTitle>
 
-<h1>Hello, world!</h1>
+<div class="home-page">
 
-Welcome to your new app.
+    <div class="container py-5">
+
+        <!-- Header -->
+        <div class="glass-box header-box mb-5">
+            <div class="d-flex justify-content-between align-items-center">
+                <h2 class="text-white fw-bold mb-0">
+                    TaskSync
+                </h2>
+
+                <div>
+                    <a href="/login" class="btn btn-outline-light me-2">
+                        Login
+                    </a>
+
+                    <a href="/register" class="btn btn-primary">
+                        Register
+                    </a>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- Main -->
+        <div class="glass-box p-5 text-center">
+
+            <h1 class="text-white fw-bold display-4">
+                Manage tasks.
+                <br />
+                Stay productive.
+            </h1>
+
+            <p class="text-white-50 fs-5 mt-3">
+                TaskSync helps you organize your work and keep track
+                of everything in one place.
+            </p>
+
+            <div class="mt-4">
+                <a href="/register" class="btn btn-primary btn-lg px-5">
+                    Start Now
+                </a>
+            </div>
+
+        </div>
+
+
+        <!-- Features -->
+        <div class="row mt-4 g-4">
+
+            <div class="col-md-4">
+                <div class="glass-box feature-card">
+                    <h3>📝</h3>
+                    <h4 class="text-white">
+                        Simple Tasks
+                    </h4>
+                    <p class="text-white-50">
+                        Create and manage tasks easily.
+                    </p>
+                </div>
+            </div>
+
+
+            <div class="col-md-4">
+                <div class="glass-box feature-card">
+                    <h3>⚡</h3>
+                    <h4 class="text-white">
+                        Fast
+                    </h4>
+                    <p class="text-white-50">
+                        Built for speed and efficiency.
+                    </p>
+                </div>
+            </div>
+
+
+            <div class="col-md-4">
+                <div class="glass-box feature-card">
+                    <h3>🔒</h3>
+                    <h4 class="text-white">
+                        Secure
+                    </h4>
+                    <p class="text-white-50">
+                        Your data stays protected.
+                    </p>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+<style>
+    .home-page {
+    min-height: 100vh;
+    background: linear-gradient(
+        135deg,
+        #111827,
+        #1e40af
+    );
+}
+
+
+.glass-box {
+
+    background: rgba(255,255,255,0.1);
+
+    backdrop-filter: blur(15px);
+
+    border-radius: 20px;
+
+    border: 1px solid rgba(255,255,255,0.15);
+
+    box-shadow: 0 15px 40px rgba(0,0,0,0.25);
+
+}
+
+
+.header-box {
+    padding: 20px 25px;
+}
+
+
+.feature-card {
+
+    padding: 30px;
+
+    height: 100%;
+
+    transition: transform .2s ease;
+
+}
+
+
+.feature-card:hover {
+
+    transform: translateY(-8px);
+
+}
+
+
+.btn-primary {
+
+    background: #2563eb;
+
+    border: none;
+
+}
+
+
+.btn-primary:hover {
+
+    background: #1d4ed8;
+
+}
+</style>

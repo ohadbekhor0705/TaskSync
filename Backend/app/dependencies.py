@@ -2,9 +2,9 @@ from fastapi import Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordBearer
 from sqlmodel import Session, select
 
-from app.database import get_session
-from app.database import User
-from app.security import decode_access_token # This is your JWT decode function
+from database import get_session
+from database import User
+from security import decode_access_token # This is your JWT decode function
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/users/login") # This is the endpoint where users will get their JWT tokens
 

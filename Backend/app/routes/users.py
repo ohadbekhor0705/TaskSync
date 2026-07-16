@@ -1,15 +1,14 @@
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlmodel import Session, select
 from typing import List
-from Backend.app.database import LoginResponse
-from app.security import *
-from app.database import *
+from database import LoginResponse
+from security import *
+from database import *
 
-#from app.dependencies import get_current_user # Our new dependency
+#from dependencies import get_current_user # Our new dependency
 
 # users touter
 user_router = APIRouter(
-    prefix="/users",
     tags=["users"],
     responses={404: {"description": "Not found"}},
 )
@@ -31,6 +30,7 @@ async def register_user(user: UserCreate, session: Session = Depends(get_session
 # this endpoint is for user login
 @user_router.post("/login", response_model=LoginResponse)
 async def login_user(user: UserLogin, session: Session = Depends(get_session)) -> LoginResponse:
+    print(f"Attempting to log in user: {user.username} with email: {user.password}")  # Debugging line
     db_user = session.exec(select(User).where(User.username == user.username)).first()
     if not db_user or not verify_password(user.password, db_user.hashed_password):
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid username or password")
