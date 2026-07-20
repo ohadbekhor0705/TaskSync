@@ -8,6 +8,7 @@ import uvicorn
 def create_db_and_tables():
     SQLModel.metadata.create_all(engine)
 
+
 app = FastAPI(title="TaskSync API", description="API for managing users and todos", version="1.0.0")
 
 
@@ -31,4 +32,4 @@ async def root():
     return {"message": "Welcome to the TaskSync API!"}
 
 if __name__ == "__main__":
-    uvicorn.run(app, host="0.0.0.0", port=8000)
+    uvicorn.run(app, host="localhost", port=8000)

@@ -1,0 +1,49 @@
+@page "/dashboard"
+@inject IJSRuntime JS
+@inject NavigationManager Navigation
+@using TodoModels
+@using System.Net.Http.Headers
+@using System.Net.Http.Json
+@inject HttpClient Http
+@if (todoModels == null) {
+    <p><em>Loading...</em></p>
+}
+else {
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Title</th>
+                <th scope="col">Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var todo in todoModels) {
+                <TodoItemComponent Todo="@todo" />
+            }
+        </tbody>
+    </table>
+}
+@code {
+    private string? savedToken = null;
+    TodoModel[]? todoModels = null;
+    protected override async Task OnAfterRenderAsync(bool firstRender) {
+        if (!firstRender)
+            return;
+        savedToken = await JS.InvokeAsync<string>("localStorage.getItem", "authToken");
+        if (string.IsNullOrEmpty(savedToken)) {
+            Navigation.NavigateTo("/");
+            return;
+        }
+        Http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", savedToken);
+        todoModels = await Http.GetFromJsonAsync<TodoModel[]>("http://127.0.0.1:8000/todos/");
+            StateHasChanged();
+    }
+    @* protected override async Task OnInitializedAsync() {
+        Http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", savedToken);
+        todoModels = await Http.GetFromJsonAsync<TodoModel[]>("http://127.0.0.1:8000/todos/");
+    } *@
+
+
+    
+}

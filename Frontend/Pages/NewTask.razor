@@ -1,0 +1,361 @@
+@page "/new-task"
+@inject NavigationManager Navigation
+@inject IJSRuntime JS
+@using System.Net.Http.Headers
+@using System.Net.Http.Json
+@using System.ComponentModel.DataAnnotations
+@using System.Text.Json.Serialization;
+@inject HttpClient Http
+@using TodoModels
+<div class="todo-form-page">
+
+    <div class="todo-card shadow-lg">
+
+        <div class="todo-header">
+            <div class="todo-icon">+</div>
+            <h1>Create New Task</h1>
+            <p>Add a task and keep your workspace moving.</p>
+        </div>
+
+        <EditForm Model="@todoModel" OnValidSubmit="HandleCreateTodo">
+
+            @if (success == false){
+                <div class="alert-error mb-3">@responseMessage</div>
+            }
+
+            <DataAnnotationsValidator />
+
+            <div class="mb-3">
+                <label class="form-label">
+                    Title
+                </label>
+                <InputText class="form-control custom-input"
+                           @bind-Value="todoModel.title"
+                           placeholder="e.g. Write project docs" />
+
+                <ValidationMessage For="@(() => todoModel.title)"
+                                   class="validation-text" />
+            </div>
+
+            <div class="mb-4">
+                <label class="form-label">Status</label>
+                <div class="select-wrapper">
+                    <InputSelect class="form-select custom-input" @bind-Value="todoModel.status">
+                    @foreach (var status in Enum.GetValues<TodoStatus>()) {
+                        <option value="@status">@status</option>    
+                    }
+                    </InputSelect>
+                </div>
+            </div>
+
+            <button class="todo-btn" disabled="@isSubmitting">
+                @(isSubmitting ? "Creating..." : "Create Task")
+            </button>
+
+        </EditForm>
+
+    </div>
+
+</div>
+
+<style>
+.todo-form-page {
+
+    min-height:100vh;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    background:#f5f5f5;
+
+    padding:40px 20px;
+
+}
+
+
+.todo-card {
+
+    width:100%;
+
+    max-width:440px;
+
+    background:#fff;
+
+    border-radius:20px;
+
+    padding:40px;
+
+    box-shadow:0 20px 50px rgba(0,0,0,.08);
+
+}
+
+
+.todo-header {
+
+    text-align:center;
+
+    margin-bottom:32px;
+
+}
+
+
+.todo-icon {
+
+    width:48px;
+
+    height:48px;
+
+    border-radius:14px;
+
+    background:#111;
+
+    color:#fff;
+
+    font-size:24px;
+
+    font-weight:700;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    margin:0 auto 16px;
+
+}
+
+
+.todo-header h1 {
+
+    font-size:24px;
+
+    font-weight:800;
+
+    color:#111;
+
+    margin-bottom:6px;
+
+}
+
+
+.todo-header p {
+
+    color:#777;
+
+    font-size:14px;
+
+}
+
+
+.form-label {
+
+    font-weight:600;
+
+    color:#222;
+
+    font-size:14px;
+
+    margin-bottom:6px;
+
+    display:block;
+
+}
+
+
+.custom-input {
+
+    height:48px;
+
+    border-radius:12px;
+
+    border:1px solid #ddd;
+
+    padding:0 14px;
+
+    width:100%;
+
+    font-size:15px;
+
+    transition:border-color .15s ease, box-shadow .15s ease;
+
+}
+
+
+.custom-input:focus {
+
+    outline:none;
+
+    border-color:#111;
+
+    box-shadow:0 0 0 4px rgba(0,0,0,.08);
+
+}
+
+
+.select-wrapper {
+
+    position:relative;
+
+}
+
+
+.select-wrapper .custom-input {
+
+    appearance:none;
+
+    -webkit-appearance:none;
+
+    background:#fff url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="12" height="8" viewBox="0 0 12 8"><path d="M1 1l5 5 5-5" stroke="%23666" stroke-width="2" fill="none" fill-rule="evenodd"/></svg>') no-repeat right 16px center;
+
+    padding-right:40px;
+
+    cursor:pointer;
+
+}
+
+
+.todo-btn {
+
+    width:100%;
+
+    height:50px;
+
+    border:none;
+
+    border-radius:12px;
+
+    background:#111;
+
+    color:white;
+
+    font-weight:700;
+
+    font-size:15px;
+
+    cursor:pointer;
+
+    margin-top:8px;
+
+    transition:background .15s ease, transform .1s ease;
+
+}
+
+
+.todo-btn:hover:not(:disabled) {
+
+    background:#000;
+
+}
+
+
+.todo-btn:active:not(:disabled) {
+
+    transform:scale(0.99);
+
+}
+
+
+.todo-btn:disabled {
+
+    background:#a0a0a0;
+
+    cursor:not-allowed;
+
+}
+
+
+.validation-text {
+
+    color:#a10000;
+
+    font-size:13px;
+
+    margin-top:6px;
+
+    display:block;
+
+}
+
+
+.alert-error {
+
+    background:#fdeaea;
+
+    color:#a10000;
+
+    border:1px solid #f3c2c2;
+
+    border-radius:10px;
+
+    padding:10px 14px;
+
+    font-size:14px;
+
+    text-align:center;
+
+}
+</style>
+
+@code {
+    private string? savedToken = null;
+    private TodoCreate? todoModel = new TodoCreate();
+    private bool? success = null;
+    private string responseMessage = string.Empty;
+    private bool isSubmitting = false;
+    protected override async Task OnInitializedAsync() {
+        savedToken = await JS.InvokeAsync<string>("localStorage.getItem", "authToken");
+        StateHasChanged();
+        if (string.IsNullOrEmpty(savedToken)) {
+            Navigation.NavigateTo("/");
+            return;
+        }
+        using var request = new HttpRequestMessage(HttpMethod.Get, "todos/");
+        request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", savedToken);
+    }
+    public class TodoCreate {
+        [Required(ErrorMessage = "Title is required.")]
+        [StringLength(20, MinimumLength = 3, ErrorMessage = "Title must be between 3 and 20 characters.")]
+        public string? title {get; set; }
+        [JsonConverter(typeof(JsonStringEnumConverter))]
+        public TodoStatus? status {get; set; } = TodoStatus.pending;
+
+    }
+
+    private async Task HandleCreateTodo() {
+        //Set the global token header for this request
+        Http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", savedToken);
+        try {
+            isSubmitting = true;
+            var response = await Http.PostAsJsonAsync("http://127.0.0.1:8000/todos/create", todoModel);
+            if (response.IsSuccessStatusCode) {
+                Navigation.NavigateTo("/dashboard");
+            }
+            else {
+                success = false;
+                responseMessage = await getMessage(response);
+                
+            }
+
+        }
+        catch (Exception ex) {
+            success = false;
+            responseMessage = "Internal Server Error";
+            Console.WriteLine($"Error: {ex.Message}");
+        }
+        finally {
+            isSubmitting = false;
+            StateHasChanged();
+        }
+    }
+    private async Task<string> getMessage(HttpResponseMessage response) {
+        var detail = await response.Content.ReadFromJsonAsync<Dictionary<string, object>>();
+        if (detail != null && detail.ContainsKey("message")) {
+            return detail["message"]?.ToString();
+        }
+        return "";
+    }
+}

@@ -31,6 +31,7 @@ class LoginResponse(SQLModel):
     access_token: str
     token_type: str
     user: UserRead
+    message: str
 
 class TodoStatus(str, Enum):
     PENDING = "pending"
@@ -49,9 +50,10 @@ class Todo(TodoBase, table=True):
 class TodoCreate(TodoBase):
     pass
 class TodoUpdate(TodoBase):
+    id: int
     status: TodoStatus | None = None
 
 class TodoRead(TodoBase):
-    id: int
-    user_id: int
-    user: UserRead
+    status: TodoStatus = TodoStatus.PENDING
+class TodoCreateResponse(SQLModel):
+    message: str

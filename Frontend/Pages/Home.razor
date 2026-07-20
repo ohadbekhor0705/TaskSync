@@ -1,161 +1,801 @@
 ﻿@page "/"
+@inject IJSRuntime JS
+@inject NavigationManager Navigation
 
-<PageTitle>TaskSync</PageTitle>
+<PageTitle>TaskSync - Organize Your Work, Simplify Your Day</PageTitle>
 
 <div class="home-page">
 
-    <div class="container py-5">
+    <div class="home-background shape-one"></div>
+    <div class="home-background shape-two"></div>
 
-        <!-- Header -->
-        <div class="glass-box header-box mb-5">
-            <div class="d-flex justify-content-between align-items-center">
-                <h2 class="text-white fw-bold mb-0">
-                    TaskSync
-                </h2>
-
-                <div>
-                    <a href="/login" class="btn btn-outline-light me-2">
-                        Login
-                    </a>
-
-                    <a href="/register" class="btn btn-primary">
-                        Register
-                    </a>
-                </div>
-            </div>
+    <!-- Navbar -->
+    <nav class="home-nav">
+        <div class="nav-logo">Task<span>Sync</span></div>
+        <div class="nav-links">
+            <a href="/about">About</a>
+            <a href="/login">Login</a>
+            <a href="/register" class="nav-cta">Get Started</a>
         </div>
+    </nav>
 
-
-        <!-- Main -->
-        <div class="glass-box p-5 text-center">
-
-            <h1 class="text-white fw-bold display-4">
-                Manage tasks.
-                <br />
-                Stay productive.
+    <!-- Hero -->
+    <section class="hero-section">
+        <div class="hero-text">
+            <h1>
+                Organize your work.
+                <span>Simplify your day.</span>
             </h1>
-
-            <p class="text-white-50 fs-5 mt-3">
-                TaskSync helps you organize your work and keep track
-                of everything in one place.
+            <p>
+                TaskSync helps you plan, track, and finish what matters —
+                without the clutter. One workspace, zero chaos.
             </p>
-
-            <div class="mt-4">
-                <a href="/register" class="btn btn-primary btn-lg px-5">
-                    Start Now
-                </a>
+            <div class="hero-buttons">
+                <a href="/register" class="btn-primary">Get Started Free</a>
+                <a href="/login" class="btn-secondary">I already have an account</a>
             </div>
-
         </div>
 
-
-        <!-- Features -->
-        <div class="row mt-4 g-4">
-
-            <div class="col-md-4">
-                <div class="glass-box feature-card">
-                    <h3>📝</h3>
-                    <h4 class="text-white">
-                        Simple Tasks
-                    </h4>
-                    <p class="text-white-50">
-                        Create and manage tasks easily.
-                    </p>
+        <div class="hero-visual">
+            <div class="mock-card">
+                <div class="mock-header">
+                    <span class="dot red"></span>
+                    <span class="dot yellow"></span>
+                    <span class="dot green"></span>
+                </div>
+                <div class="mock-task done">
+                    <span class="check">✓</span> Design homepage layout
+                </div>
+                <div class="mock-task done">
+                    <span class="check">✓</span> Set up authentication
+                </div>
+                <div class="mock-task">
+                    <span class="check empty"></span> Write project docs
+                </div>
+                <div class="mock-task">
+                    <span class="check empty"></span> Launch beta version
                 </div>
             </div>
-
-
-            <div class="col-md-4">
-                <div class="glass-box feature-card">
-                    <h3>⚡</h3>
-                    <h4 class="text-white">
-                        Fast
-                    </h4>
-                    <p class="text-white-50">
-                        Built for speed and efficiency.
-                    </p>
-                </div>
-            </div>
-
-
-            <div class="col-md-4">
-                <div class="glass-box feature-card">
-                    <h3>🔒</h3>
-                    <h4 class="text-white">
-                        Secure
-                    </h4>
-                    <p class="text-white-50">
-                        Your data stays protected.
-                    </p>
-                </div>
-            </div>
-
         </div>
+    </section>
 
-    </div>
+    <!-- Features -->
+    <section class="features-section">
+        <h2>Everything you need to stay on track</h2>
+        <p class="features-subtitle">Built to be simple, fast, and dependable.</p>
+
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">✓</div>
+                <h3>Simple Workflow</h3>
+                <p>Create and manage tasks in seconds, without the learning curve.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">↻</div>
+                <h3>Stay Organized</h3>
+                <p>Track your progress every day and never lose sight of priorities.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">🔒</div>
+                <h3>Secure by Default</h3>
+                <p>Your data stays private, encrypted, and fully under your control.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Banner -->
+    <section class="cta-banner">
+        <h2>Ready to get organized?</h2>
+        <p>Join TaskSync today — it's free to get started.</p>
+        <a href="/register" class="btn-primary">Create Your Account</a>
+    </section>
+
+    <!-- Footer -->
+    <footer class="home-footer">
+        <span>© @DateTime.Now.Year TaskSync. All rights reserved.</span>
+        <div class="footer-links">
+            <a href="/about">About</a>
+            <a href="/login">Login</a>
+            <a href="/register">Register</a>
+        </div>
+    </footer>
 
 </div>
+
 <style>
-    .home-page {
-    min-height: 100vh;
-    background: linear-gradient(
-        135deg,
-        #111827,
-        #1e40af
-    );
-}
+.home-page {
 
+    min-height:100vh;
 
-.glass-box {
+    width:100%;
 
-    background: rgba(255,255,255,0.1);
+    background:#f5f5f5;
 
-    backdrop-filter: blur(15px);
+    position:relative;
 
-    border-radius: 20px;
+    overflow:hidden;
 
-    border: 1px solid rgba(255,255,255,0.15);
-
-    box-shadow: 0 15px 40px rgba(0,0,0,0.25);
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 
 }
 
 
-.header-box {
-    padding: 20px 25px;
+.home-background {
+
+    position:absolute;
+
+    border-radius:50%;
+
+    background:#111;
+
+    opacity:.04;
+
+    z-index:0;
+
 }
 
 
-.feature-card {
+.shape-one {
 
-    padding: 30px;
+    width:500px;
 
-    height: 100%;
+    height:500px;
 
-    transition: transform .2s ease;
+    top:-200px;
+
+    right:-200px;
 
 }
 
 
-.feature-card:hover {
+.shape-two {
 
-    transform: translateY(-8px);
+    width:350px;
+
+    height:350px;
+
+    bottom:20%;
+
+    left:-150px;
+
+}
+
+
+/* Navbar */
+
+.home-nav {
+
+    position:relative;
+
+    z-index:2;
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    padding:24px 60px;
+
+}
+
+
+.nav-logo {
+
+    font-size:22px;
+
+    font-weight:800;
+
+    color:#111;
+
+}
+
+
+.nav-logo span {
+
+    color:#555;
+
+}
+
+
+.nav-links {
+
+    display:flex;
+
+    align-items:center;
+
+    gap:28px;
+
+}
+
+
+.nav-links a {
+
+    color:#333;
+
+    text-decoration:none;
+
+    font-size:15px;
+
+    font-weight:500;
+
+}
+
+
+.nav-links a:hover {
+
+    color:#000;
+
+}
+
+
+.nav-cta {
+
+    background:#111;
+
+    color:#fff !important;
+
+    padding:10px 20px;
+
+    border-radius:10px;
+
+    font-weight:700 !important;
+
+}
+
+
+.nav-cta:hover {
+
+    background:#000;
+
+}
+
+
+/* Hero */
+
+.hero-section {
+
+    position:relative;
+
+    z-index:2;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:space-between;
+
+    gap:60px;
+
+    max-width:1200px;
+
+    margin:0 auto;
+
+    padding:80px 40px 100px;
+
+}
+
+
+.hero-text {
+
+    flex:1;
+
+    max-width:520px;
+
+}
+
+
+.hero-text h1 {
+
+    font-size:48px;
+
+    font-weight:800;
+
+    color:#111;
+
+    line-height:1.15;
+
+}
+
+
+.hero-text h1 span {
+
+    display:block;
+
+    color:#555;
+
+}
+
+
+.hero-text p {
+
+    color:#666;
+
+    font-size:18px;
+
+    margin-top:20px;
+
+    max-width:440px;
+
+}
+
+
+.hero-buttons {
+
+    display:flex;
+
+    align-items:center;
+
+    gap:20px;
+
+    margin-top:32px;
+
+    flex-wrap:wrap;
 
 }
 
 
 .btn-primary {
 
-    background: #2563eb;
+    background:#111;
 
-    border: none;
+    color:#fff;
+
+    text-decoration:none;
+
+    padding:14px 28px;
+
+    border-radius:12px;
+
+    font-weight:700;
+
+    font-size:15px;
 
 }
 
 
 .btn-primary:hover {
 
-    background: #1d4ed8;
+    background:#000;
+
+    color:#fff;
+
+}
+
+
+.btn-secondary {
+
+    color:#111;
+
+    text-decoration:underline;
+
+    font-weight:600;
+
+    font-size:15px;
+
+}
+
+
+.hero-visual {
+
+    flex:1;
+
+    display:flex;
+
+    justify-content:center;
+
+}
+
+
+.mock-card {
+
+    background:#fff;
+
+    width:360px;
+
+    border-radius:20px;
+
+    padding:24px;
+
+    box-shadow:0 30px 60px rgba(0,0,0,.12);
+
+}
+
+
+.mock-header {
+
+    display:flex;
+
+    gap:8px;
+
+    margin-bottom:20px;
+
+}
+
+
+.dot {
+
+    width:10px;
+
+    height:10px;
+
+    border-radius:50%;
+
+}
+
+
+.dot.red { background:#ff5f57; }
+.dot.yellow { background:#febc2e; }
+.dot.green { background:#28c840; }
+
+
+.mock-task {
+
+    display:flex;
+
+    align-items:center;
+
+    gap:12px;
+
+    padding:12px 0;
+
+    color:#999;
+
+    font-size:15px;
+
+    border-bottom:1px solid #f0f0f0;
+
+}
+
+
+.mock-task:last-child {
+
+    border-bottom:none;
+
+}
+
+
+.mock-task.done {
+
+    color:#222;
+
+    text-decoration:line-through;
+
+}
+
+
+.check {
+
+    width:20px;
+
+    height:20px;
+
+    border-radius:6px;
+
+    background:#111;
+
+    color:#fff;
+
+    font-size:12px;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    flex-shrink:0;
+
+}
+
+
+.check.empty {
+
+    background:transparent;
+
+    border:2px solid #ddd;
+
+}
+
+
+/* Features */
+
+.features-section {
+
+    position:relative;
+
+    z-index:2;
+
+    text-align:center;
+
+    padding:60px 40px 100px;
+
+}
+
+
+.features-section h2 {
+
+    font-size:32px;
+
+    font-weight:800;
+
+    color:#111;
+
+}
+
+
+.features-subtitle {
+
+    color:#666;
+
+    margin-top:10px;
+
+    font-size:17px;
+
+}
+
+
+.features-grid {
+
+    display:flex;
+
+    justify-content:center;
+
+    gap:30px;
+
+    flex-wrap:wrap;
+
+    max-width:1000px;
+
+    margin:50px auto 0;
+
+}
+
+
+.feature-card {
+
+    background:#fff;
+
+    width:280px;
+
+    padding:32px 24px;
+
+    border-radius:18px;
+
+    box-shadow:0 15px 40px rgba(0,0,0,.05);
+
+    text-align:left;
+
+}
+
+
+.feature-icon {
+
+    width:44px;
+
+    height:44px;
+
+    border-radius:12px;
+
+    background:#111;
+
+    color:#fff;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    font-size:18px;
+
+    margin-bottom:16px;
+
+}
+
+
+.feature-card h3 {
+
+    font-size:19px;
+
+    font-weight:700;
+
+    color:#111;
+
+    margin-bottom:8px;
+
+}
+
+
+.feature-card p {
+
+    color:#777;
+
+    font-size:15px;
+
+    line-height:1.5;
+
+}
+
+
+/* CTA Banner */
+
+.cta-banner {
+
+    position:relative;
+
+    z-index:2;
+
+    background:#111;
+
+    color:#fff;
+
+    text-align:center;
+
+    padding:70px 40px;
+
+}
+
+
+.cta-banner h2 {
+
+    font-size:30px;
+
+    font-weight:800;
+
+}
+
+
+.cta-banner p {
+
+    color:#bbb;
+
+    margin-top:10px;
+
+    font-size:16px;
+
+}
+
+
+.cta-banner .btn-primary {
+
+    background:#fff;
+
+    color:#111;
+
+    display:inline-block;
+
+    margin-top:26px;
+
+}
+
+
+.cta-banner .btn-primary:hover {
+
+    background:#eee;
+
+    color:#111;
+
+}
+
+
+/* Footer */
+
+.home-footer {
+
+    position:relative;
+
+    z-index:2;
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    padding:24px 60px;
+
+    color:#888;
+
+    font-size:14px;
+
+    flex-wrap:wrap;
+
+    gap:16px;
+
+}
+
+
+.footer-links {
+
+    display:flex;
+
+    gap:20px;
+
+}
+
+
+.footer-links a {
+
+    color:#888;
+
+    text-decoration:none;
+
+}
+
+
+.footer-links a:hover {
+
+    color:#111;
+
+}
+
+
+@@media(max-width:900px){
+
+    .home-nav {
+
+        padding:20px 24px;
+
+    }
+
+
+    .hero-section {
+
+        flex-direction:column;
+
+        text-align:center;
+
+        padding:50px 24px 70px;
+
+    }
+
+
+    .hero-text {
+
+        max-width:100%;
+
+    }
+
+
+    .hero-text p {
+
+        margin-left:auto;
+
+        margin-right:auto;
+
+    }
+
+
+    .hero-buttons {
+
+        justify-content:center;
+
+    }
+
+
+    .home-footer {
+
+        flex-direction:column;
+
+        text-align:center;
+
+    }
 
 }
 </style>
+
+@code {
+    private string? savedToken;
+        protected override async Task OnAfterRenderAsync(bool firstRender) {
+        if (!firstRender)
+            return;
+            savedToken = await JS.InvokeAsync<string>("localStorage.getItem", "authToken");
+            if (string.IsNullOrEmpty(savedToken)) {
+                Navigation.NavigateTo("/dashboard");
+            }
+                
+        }
+}

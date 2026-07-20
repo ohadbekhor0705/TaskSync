@@ -1,0 +1,21 @@
+
+@using TodoModels
+
+
+<tr>
+    <td>#</td>
+    <td><input type="text" name="" id="">@Todo.title</td>
+    <td>
+        <InputSelect class="form-select custom-input" @bind-Value="Todo.status">
+        @foreach (var status in Enum.GetValues<TodoStatus>()) {
+            <option value="@status">@status</option>    
+        }
+        </InputSelect>
+
+    </td>
+</tr>
+
+@code {
+    [Parameter]
+    public TodoModel Todo { get; set; } = new() { status = TodoStatus.pending};
+}

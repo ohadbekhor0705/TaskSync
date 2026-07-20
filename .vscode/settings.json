@@ -1,5 +1,5 @@
 {
-    "dotnet.defaultSolution": "Frontend.sln",
+    "dotnet.defaultSolution": "Frontend.slnx",
     "python-envs.pythonProjects": [
         {
             "path": "Backend/app/app.py",

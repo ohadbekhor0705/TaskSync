@@ -23,7 +23,7 @@ def get_current_user(token: str = Depends(oauth2_scheme), session: Session = Dep
             detail="Invalid authentication credentials",
             headers={"WWW-Authenticate": "Bearer"},
         )
-    user = session.exec(select(User).where(User.email == email)).first()
+    user: User | None = session.exec(select(User).where(User.email == email)).first()
     if user is None:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,

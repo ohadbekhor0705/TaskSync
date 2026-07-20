@@ -35,5 +35,13 @@ async def login_user(user: UserLogin, session: Session = Depends(get_session)) -
     if not db_user or not verify_password(user.password, db_user.hashed_password):
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid username or password")
     access_token = create_access_token(data={"sub": db_user.email}) # creating the access token with the user's email as the subject
-    login_response = LoginResponse(access_token=access_token, token_type="bearer", user=UserRead(id=db_user.id, username=db_user.username, email=db_user.email))
+    login_response = LoginResponse(
+        access_token=access_token, token_type="bearer",
+        user=UserRead(
+            id=db_user.id,
+            username=db_user.username,
+            email=db_user.email
+        ),
+            message=f"Welcome back, {user.username}!"
+        )
     return login_response # returning the login response with the access token and user details

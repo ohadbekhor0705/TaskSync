@@ -1,0 +1,76 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\User\\Documents\\GitHub\\TaskSync\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{E6E42CE7-DDDF-40E5-9CBE-4B27E64F0EC5}|Frontend\\Frontend.csproj|c:\\users\\user\\documents\\github\\tasksync\\frontend\\pages\\login.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{E6E42CE7-DDDF-40E5-9CBE-4B27E64F0EC5}|Frontend\\Frontend.csproj|solutionrelative:frontend\\pages\\login.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E6E42CE7-DDDF-40E5-9CBE-4B27E64F0EC5}|Frontend\\Frontend.csproj|c:\\users\\user\\documents\\github\\tasksync\\frontend\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E6E42CE7-DDDF-40E5-9CBE-4B27E64F0EC5}|Frontend\\Frontend.csproj|solutionrelative:frontend\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E6E42CE7-DDDF-40E5-9CBE-4B27E64F0EC5}|Frontend\\Frontend.csproj|c:\\users\\user\\documents\\github\\tasksync\\frontend\\pages\\home.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{E6E42CE7-DDDF-40E5-9CBE-4B27E64F0EC5}|Frontend\\Frontend.csproj|solutionrelative:frontend\\pages\\home.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 2,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "Home.razor",
+              "DocumentMoniker": "C:\\Users\\User\\Documents\\GitHub\\TaskSync\\Frontend\\Pages\\Home.razor",
+              "RelativeDocumentMoniker": "Frontend\\Pages\\Home.razor",
+              "ToolTip": "C:\\Users\\User\\Documents\\GitHub\\TaskSync\\Frontend\\Pages\\Home.razor",
+              "RelativeToolTip": "Frontend\\Pages\\Home.razor",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAC0BAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-07-18T06:07:35.986Z",
+              "IsPinned": true,
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\User\\Documents\\GitHub\\TaskSync\\Frontend\\Program.cs",
+              "RelativeDocumentMoniker": "Frontend\\Program.cs",
+              "ToolTip": "C:\\Users\\User\\Documents\\GitHub\\TaskSync\\Frontend\\Program.cs",
+              "RelativeToolTip": "Frontend\\Program.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-07-18T06:17:36.663Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Login.Razor",
+              "DocumentMoniker": "C:\\Users\\User\\Documents\\GitHub\\TaskSync\\Frontend\\Pages\\Login.Razor",
+              "RelativeDocumentMoniker": "Frontend\\Pages\\Login.Razor",
+              "ToolTip": "C:\\Users\\User\\Documents\\GitHub\\TaskSync\\Frontend\\Pages\\Login.Razor",
+              "RelativeToolTip": "Frontend\\Pages\\Login.Razor",
+              "ViewState": "AgIAAI0AAAAAAAAAAAAAALEAAAAqAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-07-18T06:15:27.686Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{c6f34f0d-7ae5-4f3a-be61-fe0c21ae9eb8}"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

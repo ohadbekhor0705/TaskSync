@@ -1,6 +1,7 @@
 @page "/register"
 @inject HttpClient Http
 @inject NavigationManager Navigation
+@inject IJSRuntime JS
 @using System.ComponentModel.DataAnnotations
 @using System.Net.Http.Json
 <!--!?
@@ -10,159 +11,385 @@
     The page includes validation for the input fields and displays error messages if the registration fails.
 !-->
 
+<div class="register-page">
 
-<h3>Login to TaskSync</h3>
+    <div class="register-background shape-one"></div>
+    <div class="register-background shape-two"></div>
 
-<div class="register-container">
 
-    <div class="register-card shadow-lg">
+    <div class="register-layout">
 
-        @if (success != null){
-            if (!(bool)success) {
-                <div class="alert alert-danger mt-3 mx-auto" style="max-width: 450px;">@responseMessage</div>
-            }
-            else{
-                <div class="alert alert-success mt-3 mx-auto" style="max-width: 450px;">@responseMessage</div>
-            }
-            
-        }
-        <div class="text-center mb-4">
-            <h2 class="fw-bold">Create Account</h2>
-            <p class="text-muted">Join us today and get started</p>
+
+        <!-- Left Content -->
+
+        <div class="register-info">
+
+            <h1>
+                Join
+                <span>TaskSync</span>
+            </h1>
+
+            <p>
+                Start organizing your tasks and improve your productivity
+                with a simple and powerful workspace.
+            </p>
+
+
+            <div class="info-item">
+                <strong>✓ Simple workflow</strong>
+                <span>Create and manage tasks easily</span>
+            </div>
+
+
+            <div class="info-item">
+                <strong>✓ Stay organized</strong>
+                <span>Track your progress every day</span>
+            </div>
+
+
+            <div class="info-item">
+                <strong>✓ Secure account</strong>
+                <span>Your data stays private</span>
+            </div>
+
+
         </div>
 
-        <EditForm Model="@userModel" OnValidSubmit="HandleRegister">
-            <DataAnnotationsValidator />
 
-            <div class="mb-3">
-                <label class="form-label">Username</label>
-                <InputText class="form-control custom-input"
-                           @bind-Value="userModel.Username"
-                           placeholder="Choose a username" />
 
-                <ValidationMessage For="@(() => userModel.Username)"
-                                   class="validation-text" />
+        <!-- Register Card -->
+
+        <div class="register-card shadow-lg">
+
+
+            <div class="text-center mb-4">
+
+                <h2 class="fw-bold">
+                    Create Account
+                </h2>
+
+                <p class="text-muted">
+                    Start your TaskSync journey
+                </p>
+
             </div>
 
-            <div class="mb-3">
-                <label class="form-label">Email Address</label>
-                <InputText type="email"
-                           class="form-control custom-input"
-                           @bind-Value="userModel.Email"
-                           placeholder="you@example.com" />
 
-                <ValidationMessage For="@(() => userModel.Email)"
-                                   class="validation-text" />
-            </div>
+            <EditForm Model="@userModel" OnValidSubmit="HandleRegister">
 
-            <div class="mb-4">
-                <label class="form-label">Password</label>
-                <InputText type="password"
-                           class="form-control custom-input"
-                           @bind-Value="userModel.Password"
-                           placeholder="Create a strong password" />
+                <DataAnnotationsValidator />
 
-                <ValidationMessage For="@(() => userModel.Password)"
-                                   class="validation-text" />
-            </div>
+                @if (responseMessage != string.Empty) {
+                    <div class="alert @(isSuccessful? "alert-success": "alert-danger")" role="alert">@responseMessage</div>
+                }
+                <div class="mb-3">
 
-            <button type="submit" class="register-btn">
-                Create Account
-            </button>
+                    <label class="form-label">
+                        Username
+                    </label>
 
-            <div class="text-center mt-4">
-                <small class="text-muted">
-                    Already have an account?
-                    <a href="/login" class="login-link">Login</a>
-                </small>
-            </div>
+                    <InputText class="form-control custom-input"
+                               @bind-Value="userModel.Username"
+                               placeholder="Username" />
 
-        </EditForm>
+                    <ValidationMessage For="@(() => userModel.Username)"
+                                       class="validation-text" />
+
+                </div>
+                <div class="mb-3">
+
+                    <label class="form-label">
+                        Email
+                    </label>
+
+                    <InputText type="email"
+                               class="form-control custom-input"
+                               @bind-Value="userModel.Email"
+                               placeholder="Email address" />
+
+                    <ValidationMessage For="@(() => userModel.Email)"
+                                       class="validation-text" />
+
+                </div>
+                <div class="mb-4">
+
+                    <label class="form-label">
+                        Password
+                    </label>
+
+                    <InputText type="password"
+                               class="form-control custom-input"
+                               @bind-Value="userModel.Password"
+                               placeholder="Password" />
+
+                    <ValidationMessage For="@(() => userModel.Password)"
+                                       class="validation-text" />
+
+                </div>
+
+
+                <button class="register-btn" disabled="@isSubmitting">
+                    @( isSubmitting ? "Creating Account..." : " Create Account")
+                </button>
+
+
+                <div class="text-center mt-4">
+
+                    <small class="text-muted">
+
+                        Already registered?
+
+                        <a href="/login">
+                            Login
+                        </a>
+
+                    </small>
+
+                </div>
+
+
+            </EditForm>
+        </div>
 
     </div>
-
 </div>
-
-
 <style>
-    .register-container {
-        min-height: 100vh;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        background: linear-gradient(135deg, #667eea, #764ba2);
-        padding: 20px;
+.register-page {
+
+    min-height:100vh;
+
+    background:#f5f5f5;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    overflow:hidden;
+
+    position:relative;
+
+    padding:40px;
+
+}
+
+
+.register-layout {
+
+    width:100%;
+
+    max-width:1100px;
+
+    display:flex;
+
+    align-items:center;
+
+    gap:80px;
+
+    position:relative;
+
+    z-index:2;
+
+}
+
+
+.register-info {
+
+    flex:1;
+
+}
+
+
+.register-info h1 {
+
+    font-size:60px;
+
+    font-weight:800;
+
+    color:#111;
+
+}
+
+
+.register-info h1 span {
+
+    color:#555;
+
+}
+
+
+.register-info p {
+
+    color:#666;
+
+    font-size:18px;
+
+    max-width:400px;
+
+}
+
+
+.info-item {
+
+    margin-top:30px;
+
+    display:flex;
+
+    flex-direction:column;
+
+}
+
+
+.info-item strong {
+
+    font-size:18px;
+
+}
+
+
+.info-item span {
+
+    color:#777;
+
+}
+
+
+
+.register-card {
+
+    background:white;
+
+    width:430px;
+
+    padding:40px;
+
+    border-radius:25px;
+
+}
+
+
+.custom-input {
+
+    height:48px;
+
+    border-radius:12px;
+
+    border:1px solid #ddd;
+
+}
+
+
+.custom-input:focus {
+
+    border-color:#111;
+
+    box-shadow:0 0 0 4px rgba(0,0,0,.08);
+
+}
+
+
+
+.register-btn {
+
+    width:100%;
+
+    height:50px;
+
+    border:none;
+
+    border-radius:12px;
+
+    background:#111;
+
+    color:white;
+
+    font-weight:700;
+
+}
+
+
+.register-btn:hover {
+
+    background:#000;
+
+}
+
+
+
+.register-background {
+
+    position:absolute;
+
+    border-radius:50%;
+
+    background:#111;
+
+    opacity:.04;
+
+}
+
+
+.shape-one {
+
+    width:500px;
+
+    height:500px;
+
+    top:-200px;
+
+    right:-200px;
+
+}
+
+
+.shape-two {
+
+    width:350px;
+
+    height:350px;
+
+    bottom:-150px;
+
+    left:-150px;
+
+}
+
+
+
+@@media(max-width:900px){
+
+    .register-layout {
+
+        flex-direction:column;
+
+        gap:40px;
+
     }
+
+
+    .register-info {
+
+        text-align:center;
+
+    }
+
 
     .register-card {
-        background: white;
-        width: 100%;
-        max-width: 430px;
-        padding: 40px;
-        border-radius: 20px;
-        animation: fadeIn 0.4s ease;
+
+        width:100%;
+
+        max-width:430px;
+
     }
 
-    .register-card h2 {
-        color: #333;
-    }
-
-    .form-label {
-        font-weight: 600;
-        color: #444;
-    }
-
-    .custom-input {
-        height: 48px;
-        border-radius: 12px;
-        border: 1px solid #ddd;
-        padding: 0 15px;
-        transition: .2s;
-    }
-
-    .custom-input:focus {
-        border-color: #667eea;
-        box-shadow: 0 0 0 4px rgba(102,126,234,.15);
-    }
-
-    .register-btn {
-        width: 100%;
-        height: 50px;
-        border: none;
-        border-radius: 12px;
-        background: linear-gradient(135deg,#667eea,#764ba2);
-        color: white;
-        font-weight: 700;
-        font-size: 16px;
-        transition: .2s;
-    }
-
-    .register-btn:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 8px 20px rgba(102,126,234,.35);
-    }
-
-    .validation-text {
-        color: #dc3545;
-        font-size: 13px;
-    }
-
-    .login-link {
-        color: #667eea;
-        font-weight: 600;
-        text-decoration: none;
-    }
-
-    .login-link:hover {
-        text-decoration: underline;
-    }
-
-   
+}
 </style>
 
 @code {
     private UserRegister userModel = new UserRegister();
-    private bool? success = null;
+    private bool isSubmitting = false;
+    private bool isSuccessful = false;
     private string responseMessage {get; set; } = string.Empty;
 
 
@@ -181,30 +408,45 @@
         public string Password { get; set; } = "";
     }
 
-    private async Task HandleRegister() {
+    private async Task HandleRegister() { 
         try {
+            isSubmitting = true;
             // sending post request:
             var response = await Http.PostAsJsonAsync("http://127.0.0.1:8000/users/register", userModel);
-            responseMessage = await getMessage(response);
+            
             if (response.IsSuccessStatusCode) {
-                success = true;
-                StateHasChanged();
+                isSuccessful = true;
                 await Task.Delay(2000);
                 Navigation.NavigateTo("/login");
+                return;
             }
             else {
-                success = false;
+                isSuccessful = false;
             }
         }
         catch (Exception) {
-            success = false;
             responseMessage = "Something went wrong with the server!";
+        }
+        finally {
+            isSubmitting = false;
+            StateHasChanged();
+        }
+    }
+    private string? savedToken = null;
+    protected override async Task OnAfterRenderAsync(bool firstRender) {
+        if (!firstRender)
+            return;
+        savedToken = await JS.InvokeAsync<string>("localStorage.getItem", "authToken");
+        StateHasChanged();
+        if (!string.IsNullOrEmpty(savedToken)) {
+            Navigation.NavigateTo("/dashboard");
+            return;
         }
     }
     private async Task<string> getMessage(HttpResponseMessage response) {
         var detail = await response.Content.ReadFromJsonAsync<Dictionary<string, object>>();
-        if (detail != null && detail.ContainsKey("message")) {
-            return detail["message"]?.ToString();
+        if (detail != null && detail.ContainsKey("detail")) {
+            return detail["detail"]?.ToString();
         }
         return "";
     }
