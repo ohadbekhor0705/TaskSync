@@ -54,6 +54,7 @@ class TodoUpdate(TodoBase):
     status: TodoStatus | None = None
 
 class TodoRead(TodoBase):
+    id: int
     status: TodoStatus = TodoStatus.PENDING
 class TodoCreateResponse(SQLModel):
     message: str

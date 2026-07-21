@@ -1,21 +1,75 @@
-
 @using TodoModels
+@inject HttpClient Http
+@inject NavigationManager Navigation
+@inject IJSRuntime JS
+@using System.ComponentModel.DataAnnotations
+@using System.Net.Http.Json
 
 
-<tr>
-    <td>#</td>
-    <td><input type="text" name="" id="">@Todo.title</td>
-    <td>
-        <InputSelect class="form-select custom-input" @bind-Value="Todo.status">
-        @foreach (var status in Enum.GetValues<TodoStatus>()) {
-            <option value="@status">@status</option>    
-        }
-        </InputSelect>
 
-    </td>
-</tr>
+
+@if (visible) {
+<div class="col">
+    <div class="card todo-card h-100">
+        <div class="card-body d-flex flex-column">
+            <div class="d-flex justify-content-between align-items-start gap-2 mb-3">
+                <h2 class="todo-title h6 mb-0">@Todo.Title</h2>
+                <span class="status-badge status-@Todo.Status">@Todo.Status</span>
+            </div>
+          @* <div class="mt-auto d-flex justify-content-end gap-2 pt-2 border-top">
+            <button class="btn btn-sm btn-black-outline">Edit</button>
+            <button class="btn btn-sm btn-black" @onclick="HandleDelete">Delete</button>
+          </div> *@
+        </div>
+    </div>
+</div>
+}
+
+@* 
+<EditForm Model="@Todo" OnInvalidSubmit="HandleEdit" class="row">
+<DataAnnotationsValidator />
+            <div class="mb-1 col-sm">
+                <label class="form-label">
+                    Title
+                </label>
+                <InputText class="form-control custom-input"
+                           @bind-Value="Todo.Title"
+                           placeholder="e.g. Write project docs" />
+
+                <ValidationMessage For="@(() => Todo.Title)"
+                                   class="validation-text" />
+            </div>
+
+            <div class="mb-1 col-sm">
+                <label class="form-label">Status</label>
+                <div class="select-wrapper">
+                    <InputSelect class="form-select custom-input" @bind-Value="Todo.Status">
+                    @foreach (var status in Enum.GetValues<TodoStatus>()) {
+                        <option value="@status">@status</option>    
+                    }
+                    </InputSelect>
+                </div>
+            </div>
+            <div class="col-sm">
+                <button class="btn btn-success" @onclick="Hadle"></button>
+            </div>
+</EditForm> *@
+
+
+
 
 @code {
     [Parameter]
-    public TodoModel Todo { get; set; } = new() { status = TodoStatus.pending};
+    public TodoModel Todo { get; set; } = new() { Status = TodoStatus.pending};
+
+    [Parameter]
+    public string authToken { get; set; } = string.Empty;
+    private bool visible = true;
+
+
+    
+
+    private void HandleDelete() {
+        throw new NotImplementedException();
+    }
 }
