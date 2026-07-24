@@ -1,3 +1,5 @@
+@using System.Net.Http.Headers
+@using System.Runtime.InteropServices
 @using TodoModels
 @inject HttpClient Http
 @inject NavigationManager Navigation
@@ -16,60 +18,128 @@
                 <h2 class="todo-title h6 mb-0">@Todo.Title</h2>
                 <span class="status-badge status-@Todo.Status">@Todo.Status</span>
             </div>
-          @* <div class="mt-auto d-flex justify-content-end gap-2 pt-2 border-top">
-            <button class="btn btn-sm btn-black-outline">Edit</button>
+          <div class="mt-auto d-flex justify-content-end gap-2 pt-2 border-top">
+            <button class="btn btn-sm btn-black-outline" @onclick="OpenModal">Edit</button>
             <button class="btn btn-sm btn-black" @onclick="HandleDelete">Delete</button>
-          </div> *@
+          </div>
         </div>
     </div>
 </div>
-}
 
-@* 
-<EditForm Model="@Todo" OnInvalidSubmit="HandleEdit" class="row">
-<DataAnnotationsValidator />
-            <div class="mb-1 col-sm">
-                <label class="form-label">
-                    Title
-                </label>
-                <InputText class="form-control custom-input"
-                           @bind-Value="Todo.Title"
-                           placeholder="e.g. Write project docs" />
 
-                <ValidationMessage For="@(() => Todo.Title)"
-                                   class="validation-text" />
+<div class="modal fade" id="TodoModal@(Todo.Id)" tabindex="-1"aria-labelledby="exampleModalLabel"aria-hidden="true" @ref="_modalElement" a-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <EditForm Model="@tempTodo" OnValidSubmit="HandleEdit">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel"> Edit Todo</h1>
             </div>
 
-            <div class="mb-1 col-sm">
-                <label class="form-label">Status</label>
-                <div class="select-wrapper">
-                    <InputSelect class="form-select custom-input" @bind-Value="Todo.Status">
-                    @foreach (var status in Enum.GetValues<TodoStatus>()) {
-                        <option value="@status">@status</option>    
-                    }
-                    </InputSelect>
+            
+                <DataAnnotationsValidator />
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label class="form-label">Title</label>
+                        <p class="form-control custom-input">@Todo.Title</p>
+
+                    </div>
+                    <div class="mb-3"><label class="form-label"> Status</label>
+                        <div class="select-wrapper">
+                            <InputSelect class="form-select custom-input"@bind-Value="tempTodo.Status">
+                                @foreach (var status in Enum.GetValues<TodoStatus>()) {
+                                    <option value="@status">@status </option>
+                                }
+                            </InputSelect>
+                        </div>
+                        <ValidationMessage For="@(() => tempTodo.Status)"class="validation-text" />
+                    </div>
                 </div>
+                
+            
+            <div class="modal-footer">
+                    <button type="button"class="btn btn-secondary"data-bs-dismiss="modal">Close</button>
+                    <button class="btn btn-primary">Save changes</button>
             </div>
-            <div class="col-sm">
-                <button class="btn btn-success" @onclick="Hadle"></button>
-            </div>
-</EditForm> *@
+            </EditForm>
+        </div>
+    </div>
+</div>
 
-
-
-
+}
 @code {
     [Parameter]
+
     public TodoModel Todo { get; set; } = new() { Status = TodoStatus.pending};
+
+    private TodoModel tempTodo {get; set; } = new TodoModel() {Status = TodoStatus.pending, Title = ""};
 
     [Parameter]
     public string authToken { get; set; } = string.Empty;
     private bool visible = true;
+    private bool sending = false;
 
+    private ElementReference _modalElement;
 
-    
+    protected override void OnInitialized() {
+        tempTodo.Id = Todo.Id;
+        tempTodo.Status = Todo.Status;
+        tempTodo.Title = Todo.Title;
+    }
 
-    private void HandleDelete() {
-        throw new NotImplementedException();
+    class TodoUpdate {
+        public int id {get; set; }
+        public TodoStatus status {get; set; }
+
+        public override string ToString()
+        {
+            return $"id= {id}, status={status}";
+        }
+    }
+    private async Task HandleDelete() {
+        try {
+            Http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", authToken);
+            HttpResponseMessage response = await Http.DeleteAsync($"http://127.0.0.1:8000/todos/delete/?todo_id={Todo.Id}");
+            if (response.IsSuccessStatusCode || ((int)response.StatusCode) == 403) {
+                visible = false;
+            }
+        }
+        catch (HttpRequestException ex) {
+            Console.WriteLine(ex);
+        }
+        finally {
+
+        }
+    }
+
+    private async Task HandleEdit() {
+        try {
+            TodoUpdate todoUpdate = new TodoUpdate() {id = tempTodo.Id, status = tempTodo.Status};
+            Http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", authToken);
+            var response = await Http.PutAsJsonAsync("http://127.0.0.1:8000/todos/update", todoUpdate);
+            if (response.IsSuccessStatusCode) {
+                Todo.Status = tempTodo.Status;
+            }
+            
+        }
+        catch (HttpRequestException ex) {
+            Console.WriteLine(ex);
+        }
+        finally {
+            // hiding modal
+           //await JS.InvokeVoidAsync("eval", $"var modal = bootstrap.Modal.getInstance(document.getElementById('TodoModal{Todo.Id}')); modal.hide();");
+        }
+    }
+
+    private async Task OpenModal() {
+        // saving temp values
+        tempTodo.Id = Todo.Id;
+        tempTodo.Status = Todo.Status;
+        tempTodo.Title = Todo.Title;
+        // still ended up using JavaScript because of Blazor conflicts 
+        // but that line is a permanent fix
+        await JS.InvokeVoidAsync(
+            "eval",
+            $"new bootstrap.Modal(document.getElementById('TodoModal{Todo.Id}')).show()"
+        );
     }
 }

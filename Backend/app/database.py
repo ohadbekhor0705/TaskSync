@@ -49,12 +49,13 @@ class Todo(TodoBase, table=True):
 
 class TodoCreate(TodoBase):
     pass
-class TodoUpdate(TodoBase):
-    id: int
-    status: TodoStatus | None = None
 
 class TodoRead(TodoBase):
     id: int
     status: TodoStatus = TodoStatus.PENDING
 class TodoCreateResponse(SQLModel):
     message: str
+
+class TodoUpdate(SQLModel):
+    status: TodoStatus
+    id: int

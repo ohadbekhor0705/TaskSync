@@ -1,7 +1,9 @@
 using System.Text.Json.Serialization;
-
+using System.ComponentModel.DataAnnotations;
 namespace TodoModels;
 public class TodoModel {
+    [Required(ErrorMessage = "Title is required.")]
+    [StringLength(20, MinimumLength = 3, ErrorMessage = "Title must be between 3 and 20 characters.")]
     [System.Text.Json.Serialization.JsonPropertyName("title")]
     public string Title { get; set; } = string.Empty;
     

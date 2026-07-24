@@ -12,96 +12,61 @@
 !-->
 
 <div class="register-page">
-
     <div class="register-background shape-one"></div>
     <div class="register-background shape-two"></div>
-
-
     <div class="register-layout">
-
-
         <!-- Left Content -->
-
         <div class="register-info">
-
             <h1>
                 Join
                 <span>TaskSync</span>
             </h1>
-
             <p>
                 Start organizing your tasks and improve your productivity
                 with a simple and powerful workspace.
             </p>
-
-
             <div class="info-item">
                 <strong>✓ Simple workflow</strong>
                 <span>Create and manage tasks easily</span>
             </div>
-
-
             <div class="info-item">
                 <strong>✓ Stay organized</strong>
                 <span>Track your progress every day</span>
             </div>
-
-
             <div class="info-item">
                 <strong>✓ Secure account</strong>
                 <span>Your data stays private</span>
             </div>
-
-
         </div>
-
-
-
         <!-- Register Card -->
-
         <div class="register-card shadow-lg">
-
-
             <div class="text-center mb-4">
-
                 <h2 class="fw-bold">
                     Create Account
                 </h2>
-
                 <p class="text-muted">
                     Start your TaskSync journey
                 </p>
-
             </div>
-
-
             <EditForm Model="@userModel" OnValidSubmit="HandleRegister">
-
                 <DataAnnotationsValidator />
-
                 @if (responseMessage != string.Empty) {
                     <div class="alert @(isSuccessful? "alert-success": "alert-danger")" role="alert">@responseMessage</div>
                 }
                 <div class="mb-3">
-
                     <label class="form-label">
                         Username
                     </label>
-
                     <InputText class="form-control custom-input"
                                @bind-Value="userModel.Username"
                                placeholder="Username" />
-
                     <ValidationMessage For="@(() => userModel.Username)"
                                        class="validation-text" />
-
                 </div>
                 <div class="mb-3">
-
                     <label class="form-label">
                         Email
                     </label>
-
                     <InputText type="email"
                                class="form-control custom-input"
                                @bind-Value="userModel.Email"
@@ -109,45 +74,29 @@
 
                     <ValidationMessage For="@(() => userModel.Email)"
                                        class="validation-text" />
-
                 </div>
                 <div class="mb-4">
-
                     <label class="form-label">
                         Password
                     </label>
-
                     <InputText type="password"
                                class="form-control custom-input"
                                @bind-Value="userModel.Password"
                                placeholder="Password" />
-
                     <ValidationMessage For="@(() => userModel.Password)"
                                        class="validation-text" />
-
                 </div>
-
-
                 <button class="register-btn" disabled="@isSubmitting">
                     @( isSubmitting ? "Creating Account..." : " Create Account")
                 </button>
-
-
                 <div class="text-center mt-4">
-
                     <small class="text-muted">
-
                         Already registered?
-
                         <a href="/login">
                             Login
                         </a>
-
                     </small>
-
                 </div>
-
-
             </EditForm>
         </div>
 

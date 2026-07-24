@@ -45,6 +45,8 @@
         </div>
 
     </div>
+} else if (todoModels.Length == 0) {
+    <p><em>Couldn't find any Tasks.</em></p>
 }
 else {
 
@@ -52,7 +54,6 @@ else {
 
   <div class="todo-header mb-4">
     <h1 class="h3 mb-1">Todo Board</h1>
-    @* <p class="text-secondary mb-0">Bootstrap grid/flexbox template.</p> *@
   </div>
   <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 g-3">
     @foreach (TodoModel todo in todoModels) {
@@ -312,15 +313,18 @@ else {
             Navigation.NavigateTo("/");
             return;
         }
-        Http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", savedToken);
-        await Task.Delay(2000);
-        todoModels = await Http.GetFromJsonAsync<TodoModel[]>("http://127.0.0.1:8000/todos/");
-        StateHasChanged();
+        try {
+            Http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", savedToken);
+            todoModels = await Http.GetFromJsonAsync<TodoModel[]>("http://127.0.0.1:8000/todos/");
+            StateHasChanged();
+        }
+        catch (HttpRequestException ex) {
+            todoModels = new TodoModel[] {};
+            Console.WriteLine(ex);
+            StateHasChanged();
+        }
     }
-    @* protected override async Task OnInitializedAsync() {
-        Http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", savedToken);
-        todoModels = await Http.GetFromJsonAsync<TodoModel[]>("http://127.0.0.1:8000/todos/");
-    } *@
+    
 
 
     
